@@ -1,19 +1,14 @@
 #  Creating the IWPServer qcow2 file
 
-Create a new image using qemu-img, 20G in size:
+Open a terminal/command/bash/powershell
 
+Create a new image using qemu-img, 20G in size:
 ```text
 qemu-img create -f qcow2 iwpserver.img 20G
 ```
-
-Download the Alpine Version 3.5.0 Virtual iso image:
-
-```text
-https://fr.alpinelinux.org/alpine/v3.5/releases/x86/alpine-virt-3.5.0-x86.iso
-```
-
+Download the Alpine Virtual iso image:
+be sur to place it in same file as qemu exe
 Then boot the image using qemu-system-i386 and install Alpine:
-
 ```text
 ./qemu-system-i386 \
 -m 1024 \
@@ -28,21 +23,33 @@ Then boot the image using qemu-system-i386 and install Alpine:
 ```
 
 Change the root password to 'root'.
+when prompted
+
+restart the server with reboot command
+running 
+```
+setup-alpine
+```
+will give you a step by step alpine setup configuration
+you can leave most of it by default but the disc must be a "sys" type
 
 Add a user 'iwp' with password 'iwp'.
-
-Install sudo and nano.
-
-Add the iwp user to sudoers.
-
-To get PHP7, edit the /etc/apk/repositories file using an nano and add a line like:
-
-http://dl-6.alpinelinux.org/alpine/edge/community
-
-Obtain the latest index of available packages:
-
-```text
+```
+setup-user
+```
+you will need to setup repositories for alpine package manager
+```
+setup-apkrepos -cf
+```
+then update the package list
+```
 apk update
+```
+this will take somme time but you won't need to edit any repository
+
+install lastest php version for your alpine linux version
+```
+apk add php
 ```
 
 Ssh into the virtual server and install the packages as listed in the installed-packages.md file using the pkg command.
